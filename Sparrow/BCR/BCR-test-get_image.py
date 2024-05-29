@@ -9,7 +9,17 @@ import time
 import cv2
 
 # cognex's config
-ip = "11.200.0.138" #per spec
+# ip = "11.200.0.138" #DM280X
+
+#DM260-A
+ip = '11.200.0.191'
+#DM260-B
+# ip = '11.200.0.192'
+#DM260-C
+# ip = '11.200.0.193'
+#DM260-D
+# ip = '11.200.0.194'
+
 user = 'admin'
 password = ''
 

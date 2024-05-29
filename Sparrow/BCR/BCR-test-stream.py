@@ -5,7 +5,7 @@ import time
 import cv2
 
 # cognex's config
-ip = "11.200.0.138" #per spec
+ip = "11.200.0.191" #per spec
 user = 'admin'
 password = ''
 

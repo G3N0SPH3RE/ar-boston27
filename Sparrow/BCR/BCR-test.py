@@ -31,7 +31,19 @@ print(funame)
 
 ##########################################################
 # Imports and important things
-ip = '11.200.0.138'
+
+#DM280X
+# ip = '11.200.0.138'
+
+#DM260-A
+ip = '11.200.0.191'
+#DM260-B
+# ip = '11.200.0.192'
+#DM260-C
+# ip = '11.200.0.193'
+#DM260-D
+# ip = '11.200.0.194'
+
 
 
 ############## End of Imports and things #############
@@ -88,7 +100,7 @@ ip = '11.200.0.138'
 import subprocess
 import platform
 
-ip_address = "11.200.0.138"
+# DM280X ip = "11.200.0.138"
 
 def ping_ip(host):
     """
@@ -108,9 +120,9 @@ def ping_ip(host):
         return False
 
 # Ping the IP address and log the result
-if ping_ip(ip_address):
-    print(f"Communication with {ip_address} is valid. Logging pass.")
+if ping_ip(ip):
+    print(f"Communication with {ip} is valid. Logging pass.")
 else:
-    print(f"Communication with {ip_address} failed. Logging fail.")
+    print(f"Communication with {ip} failed. Logging fail.")
 
 ####################### Method B3 END#############################
