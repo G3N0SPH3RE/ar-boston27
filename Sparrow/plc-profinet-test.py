@@ -10,7 +10,8 @@ slot = 1
 client = snap7.client.Client()
 
 # Connect to the PLC
-client.connect(plc_ip, rack, slot)
+#client.connect(plc_ip, rack, slot)
+client.connect(11.200.0.19, rack, slot)
 
 # Toggle the light on channel 6
 while True:
