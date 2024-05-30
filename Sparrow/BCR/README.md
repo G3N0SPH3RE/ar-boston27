@@ -4,6 +4,7 @@
 ## pip install pyftpdlib
 ## pip install opencv-python
 ## pip install Nativeinterfacepy
+## pip install pyserial
 
 #### get_image.py ####
 
