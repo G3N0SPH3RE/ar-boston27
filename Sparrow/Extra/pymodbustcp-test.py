@@ -3,7 +3,7 @@ from time import sleep
 from random import uniform
 
 # Create an instance of ModbusServer
-server = ModbusServer("127.0.0.1", 12345, no_block=True)
+server = ModbusServer("127.0.0.249", 12345, no_block=True)
 
 try:
     print("Start server...")
