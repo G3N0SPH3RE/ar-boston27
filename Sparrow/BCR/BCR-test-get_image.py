@@ -1,14 +1,15 @@
 #### cognex camera/barcode capture test
 
-##############################
-
+###Imports, (not those kinds...)
 import sys
 import telnetlib
 from ftplib import FTP
 import time
 import cv2
 
-#### cognex's config
+##############################
+
+#### Cognex's config
 def removeTagName(tag):
     return re.sub('<[^<]+?>', '', tag)
 
