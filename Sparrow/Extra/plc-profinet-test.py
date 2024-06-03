@@ -2,7 +2,7 @@ import snap7
 from snap7.util import set_bool, get_bool
 
 # PLC connection details
-plc_ip = "11.200.0.19"
+plc_ip = "11.200.0.191"
 rack = 0
 slot = 1
 
