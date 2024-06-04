@@ -1,9 +1,9 @@
-from .CognexCommandError import CognexCommandError
-from .commands.ExecutionAndOnline import ExecutionAndOnline
-from .commands.FileAndJob import FileAndJob
-from .commands.Image import Image
-from .commands.SettingsAndCellsValues import SettingsAndCellsValues
-from .utils import close_socket, login_to_cognex_system, open_socket
+from CognexCommandError import CognexCommandError
+from commands.ExecutionAndOnline import ExecutionAndOnline
+from commands.FileAndJob import FileAndJob
+from commands.Image import Image
+from commands.SettingsAndCellsValues import SettingsAndCellsValues
+from utils import close_socket, login_to_cognex_system, open_socket
 
 
 class NativeInterface():

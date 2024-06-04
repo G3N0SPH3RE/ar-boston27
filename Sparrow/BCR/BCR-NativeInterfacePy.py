@@ -1,4 +1,4 @@
-from CognexNativePy import NativeInterface
+from CognexNativePy-main import NativeInterface
 
 
 def main():

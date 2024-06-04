@@ -25,7 +25,7 @@ from pyModbusTCP import utils
 from pyModbusTCP.client import ModbusClient
 
 
-scanner_ip_address = "11.200.0.193"
+scanner_ip_address = "11.200.0.154"
 
 mb_client = ModbusClient(scanner_ip_address)
 mb_client.open()
