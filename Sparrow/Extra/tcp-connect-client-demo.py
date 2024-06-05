@@ -1,43 +1,43 @@
 
 ############ TCP Connection ##############
 
-# import socket
+import socket
 
-# # Create a TCP/IP socket
-# sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# # Set the host and port
-# host = "11.200.0.249"
-# port = 23
+# Set the host and port
+host = "11.200.0.249"
+port = 23
 
-# # Bind the socket to the host and port
-# sock.bind((host, port))
+# Bind the socket to the host and port
+sock.bind((host, port))
 
-# # Listen for incoming connections
-# sock.listen(1)
+# Listen for incoming connections
+sock.listen(1)
 
-# print(f"Server is listening on {host}:{port}")
+print(f"Server is listening on {host}:{port}")
 
-# while True:
-#     print("Waiting for a connection...")
-#     connection, client_address = sock.accept()
-#     try:
-#         print(f"Connection from {client_address}")
+while True:
+    print("Waiting for a connection...")
+    connection, client_address = sock.accept()
+    try:
+        print(f"Connection from {client_address}")
 
-#         # Receive the data in small chunks and retransmit it
-#         while True:
-#             data = connection.recv(16)
-#             print(f"Received: {data.decode()}")
-#             if data:
-#                 print(f"Sending data back to the client")
-#                 connection.sendall(data)
-#             else:
-#                 print("No more data from", client_address)
-#                 break
+        # Receive the data in small chunks and retransmit it
+        while True:
+            data = connection.recv(16)
+            print(f"Received: {data.decode()}")
+            if data:
+                print(f"Sending data back to the client")
+                connection.sendall(data)
+            else:
+                print("No more data from", client_address)
+                break
 
-#     finally:
-#         # Clean up the connection
-#         connection.close()
+    finally:
+        # Clean up the connection
+        connection.close()
 
 
 

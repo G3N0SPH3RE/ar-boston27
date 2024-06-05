@@ -25,19 +25,17 @@
 
 
 ####### Client ###########
-
 from pyModbusTCP.client import ModbusClient
 from time import sleep
+from random import uniform
 
-# Create a ModbusClient instance
-client = ModbusClient(host="127.0.0.191", port=5353)
+client = ModbusClient(host="127.0.0.154", port=23)
 
 try:
     # Connect to the Modbus server
-    if not client.is_connected():
-        if not client.connect():
-            print("Unable to connect to the Modbus server")
-            exit()
+    if not client.open():
+        print("Unable to connect to the Modbus server")
+        exit()
 
     print("Connected to the Modbus server")
 
@@ -58,6 +56,5 @@ except Exception as e:
 
 finally:
     # Close the connection to the Modbus server
-    if client.is_connected():
-        client.close()
+    client.close()
     print("Disconnected from the Modbus server")
