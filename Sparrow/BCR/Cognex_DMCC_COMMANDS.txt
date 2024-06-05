@@ -1,0 +1,70 @@
+#DMCC Overview
+DataMan Control Commands (DMCC) are a method of configuring and controlling a DataMan reader from a COM port, either
+directly or programatically through a custom application. Depending on the DataMan reader you are using, the COM port
+connection can be either RS232, USB, or the Telnet protocol in the case of Ethernet capable readers. By default, Ethernet
+capable readers are configured to communicate over TCP port number 23, but you can use the DataMan Setup Tool to
+assign a different port number as necessary.
+
+Note: Use a third party client such as PuTTY to make changes to the Telnet client provided by Windows to
+communicate with the DataMan.
+
+#Command Syntax ###############
+All DMCC commands are formed of a stream of ASCII printable characters with the following syntax:
+command-header command [arguments] footer
+
+For example:
+||>trigger on\CR\LF
+
+#Command Header Syntax #############
+||checksum:command-id>
+
+All options are colon separated ASCII text. A header without the header-option block will use header defaults.
+checksum
+0: no checksum (default)
+1: last byte before footer is XOR of bytes
+command-id
+An integer command sequence that can be reported back in acknowledgement.
+
+#Header Examples ###############
+Example Description:
+||> Default Header
+||0:123> Header indicating no-checksum and ID of 123
+||1> Header indicating checksum after command and data.
+
+#Commands ######
+Short names specifying an action. A commonly used command is GET or SET followed by a Parameter and Value.
+#Parameters #######
+Short names specifying a device setting. Parameter names are organized with a group of similar commands with one level of
+structural organization separated by a period ('.').
+#Arguments ######
+#Boolean: ON or OFF
+#Integer: 123456
+#String: ASCII text string enclosed by quotes (“).The string content is passed to a function to translate the string to the final
+format. The following characters must be backslash escaped: quote (\”), backslash (\\), pipe (\|), tab (\t), CR(\r), LF (\n).
+#Footer #########
+The footer is a carriage return and linefeed (noted as \CR\LF or \r\n).
+#Reader Response ########
+The reader will have one of several response formats. The choice of response format is configured using the SET
+COM.DMCC-RESPONSE command.
+#Silent: (0, Default) No response will be sent from the reader. Invalid commands are ignored without feedback. Command
+responses are sent in space delimited ASCII text without a header or footer.
+#Extended: (1) The reader responds with a header data footer block similar to the command format.
+
+Example
+The following example uses the dmccSet functions to issue a beep signal, set the ftp server IP for image storage and adds
+the MAC to the output response:
+function onResult (decodeResults, readerProperties, output)
+{
+var myoutput;
+var result_tmp = dmccCommand(”BEEP”, 1, 1);
+result_tmp = dmccSet(”FTP-IMAGE.IP-ADDRESS”, ”192.168.23.42”);
+if(result_tmp.status !=0)
+{
+throw(”FATAL: failed to set the ftp server address”);
+}v
+ar mac = dmccGet(”DEVICE.MAC-ADDRESS”);
+myoutput = ’Result=”’ + decodeResults[0].content + ’”, MAC=’+mac.response;
+output.content = myoutput;
+}
+
+See manual for more info.
