@@ -25,9 +25,16 @@ print(funame)
 
 # Device Info:
 #   Cognex
-#   DMR-280X-1120
+#   DMR-280X-1120 #CHECK THIS?
 #   Barcode Reader DataMan 280X
 #   High Speed Reader
+
+# SOME COMMANDS
+#  ACTIONS: SET / GET
+ # LIVEIMG.MODE - controls live image display; 
+    # ARGUMENT: mode; mode range= [0,2  ] 0:Disable and 2:Enable
+# LIVEIMG.SEND - Request image transfer to PC when LIVEIMG.MODE is set to 3; 
+    # ARGUMENT: size [0-3]; format [0-2] 0=BMP, 1:JPEG, 2:PNG; quality [10,15,20...85,90] : JPEG Quality
 
 ##########################################################
 # Imports and important things
@@ -36,93 +43,107 @@ print(funame)
 # ip = '11.200.0.138'
 
 #DM260-A
-ip = '11.200.0.191'
+# ip = '11.200.0.191'
+
 #DM260-B
 # ip = '11.200.0.192'
+
 #DM260-C
-# ip = '11.200.0.193'
+ip = '11.200.0.193'
+
 #DM260-D
 # ip = '11.200.0.194'
 
+port = 23
 
 
 ############## End of Imports and things #############
 
-# :::::: method B1 ::::::
+# :::::: method 1 ::::::
+###This works####
 
-#  RS-232 Communication with COGNEX BCR
-#  replace '#' with com number
-#  cognex = serial.Serial('COM#', 9600, timeout=5)
-#  time.sleep(.5)
-#  cognex.write(b'0') 
-#  time.sleep(1) 
-#  response = cognex.readline() 
-#  cognexsn = response 
-#  print(cognexsn) 
-# cognexsn = cognexsn.decode() 
-# print(cognexsn) 
-# cognexsn = cognexsn.replace('\n', ' ').replace('\r', '').replace(' ','') 
-# print(cognexsn)
+# #  Ping IP address
+# import subprocess
+# import platform
+
+# # DM280X ip = "11.200.0.138"
+
+# def ping_ip(host):
+#     """
+#     Pings the given IP address and returns True if the host responds, False otherwise.
+#     """
+#     # Determine the ping command based on the operating system
+#     param = '-n' if platform.system().lower() == 'windows' else '-c' #send single ping packet for windows(-n) and linux(-c)
+
+#     # Build the ping command
+#     command = ['ping', param, '1', host]
+
+#     try:
+#         # Run the ping command and check the return code
+#         return subprocess.call(command) == 0
+#     except:
+#         # If there's an error, return False
+#         return False
+
+# # Ping the IP address and log the result
+# if ping_ip(ip):
+#     print(f"Communication with {ip} is valid. Logging pass.")
+# else:
+#     print(f"Communication with {ip} failed. Logging fail.")
 
 ####################### Method B1 END#############################
 
-## :::::: method B2 ::::::
+import telnetlib
+import time
 
-# from pylibhardware import proxy_simple
-# # Cognex hardware ID
+# Telnet connection details
+# ip = "11.200.0.193"
+# port = 23
+# user = "admin"
+# password = ""
 
-# vendor, product_name, zz = proxy_simple( '11.200.0.138' ).read( [('@1/1/1','INT'),('@1/1/7','SSTRING'),('@0x79/1/0x10','SINT')] )
+print("Connecting to Cognex camera @ ", ip, " on port ", port)
 
-# print(vendor)
-# print(product_name)
-# print(zz)
+# Telnet command
+command = b"||>GET DEVICE.NAME\r\n"
 
-# if vendor == 'Cognex':
-#     print('Vendor Match')
-# else: print('Vendor does not match')
+try:
+    # Connect to the Telnet server
+    tn = telnetlib.Telnet(ip, port, timeout=5)
 
-# if product_name == 'DMR-280X-1120': #Check this for accuracy...
-#     print('Product Match')
-# else: print('Product does not match')
+    # tn.read_until(b"User: ", timeout=5)    # Wait for the login prompt
+    # tn.write(user.encode() + b"\r\n")            # Send the username
+    # tn.read_until(b"Password: ", timeout=5)           # Wait for the password prompt
+    # tn.write(password.encode() + b"\r\n")                 # Send the password
+    # tn.read_until(b"Log In Confirmed", timeout=5)             # Wait for the login confirmation
 
-# if zz == 'Barcode Reader DataMan 280X':
-#     print('Barcode Reader DataMan 280X')
-#     print('Barcode scanner is working')
-# else:
-#     print('Barcode Reader DataMan 280X')
-#     print('Barcode scanner is not working')
-            
-####################### Method B2 END#############################
+    # Send the command
+    tn.write(command)
 
-# :::::: method B3 ::::::
+    # Read the response
+    response = tn.read_until(b"\n", timeout=5)
+    print(response.decode().strip())
 
-#  Ping IP address
-import subprocess
-import platform
+    while True:
+        # Prompt the user for a command
+        user_input = input("Enter a command (or 'exit' to quit): ")
 
-# DM280X ip = "11.200.0.138"
+        # Check if the user wants to exit
+        if user_input.lower() == "exit":
+            break
 
-def ping_ip(host):
-    """
-    Pings the given IP address and returns True if the host responds, False otherwise.
-    """
-    # Determine the ping command based on the operating system
-    param = '-n' if platform.system().lower() == 'windows' else '-c' #send single ping packet for windows(-n) and linux(-c)
+        # Add the '||>' prefix to the user input
+        command = (b"||>" + user_input.encode() + b"\r\n")
 
-    # Build the ping command
-    command = ['ping', param, '1', host]
+        # Send the command
+        tn.write(command)
 
-    try:
-        # Run the ping command and check the return code
-        return subprocess.call(command) == 0
-    except:
-        # If there's an error, return False
-        return False
+        # Read the response
+        response = tn.read_until(b"\n", timeout=5)
+        print(response.decode().strip())
 
-# Ping the IP address and log the result
-if ping_ip(ip):
-    print(f"Communication with {ip} is valid. Logging pass.")
-else:
-    print(f"Communication with {ip} failed. Logging fail.")
+    # Close the connection
+    tn.close()
 
-####################### Method B3 END#############################
+except Exception as e:
+    print(f"Error: {e}")

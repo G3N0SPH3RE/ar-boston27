@@ -1,10 +1,10 @@
-from CognexNativePy-main import NativeInterface
+from CognexNativePy import NativeInterface
 
 
 def main():
     try:
         # Create a socket connection to the Cognex In-Sight vision system and log in
-        native_interface = NativeInterface('11.200.0.191', 'admin', '')
+        native_interface = NativeInterface('11.200.0.193', 'admin', '')
         execution_and_online = native_interface.execution_and_online
         file_and_job = native_interface.file_and_job
         image = native_interface.image

@@ -15,32 +15,34 @@ def removeTagName(tag):
 
 
 # host = "11.200.0.138" #DM280X
-host = '11.200.0.154' #DM280-3.4
+# host = '11.200.0.154' #DM280-3.4
 
 #DM260-A
 # host = '11.200.0.191'
 #DM260-B
 # host = '11.200.0.192'
 #DM260-C
-# host = '11.200.0.193'
+host = '11.200.0.193'
 #DM260-D
 # host = '11.200.0.194'
 
-user = 'admin'
-password = ''
+port = 23
+
+# user = 'admin'
+# password = ''
 
 ### Method 1 ###
 
 #### telnet login
-tn = telnetlib.Telnet(host)
-telnet_user = user+'\r\n'
+tn = telnetlib.Telnet(host, port)
+# telnet_user = user+'\r\n'
 
-tn.read_until('User: ') #wait for Camera prompts for username
-tn.write(user + '\r\n') #send username
-tn.read_until('Password: ') #wait for Camera prompts for password
-tn.write(password + '\r\n') #send password
+# tn.read_until('User: ') #wait for Camera prompts for username
+# tn.write(user + '\r\n') #send username
+# tn.read_until('Password: ') #wait for Camera prompts for password
+# tn.write(password + '\r\n') #send password
 
-tn.read_until('Log In Confirmed') #wait for Camera to confirm login
+# tn.read_until('Log In Confirmed') #wait for Camera to confirm login
 
 #### capture
 ###Using 'Native Mode Command'; issues trigger=> camera must be set to manual
